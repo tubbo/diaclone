@@ -1,0 +1,2 @@
+module Diaclone
+end
