@@ -2,5 +2,10 @@ require_relative '../../app/transformers/<%= file_name %>_transformer'
 require 'spec_helper'
 
 describe <%= file_name.camelize %>Transformer do
+  let(:result) { Diaclone::Result.new "put fixture text here" }
   subject { <%= file_name.camelize %>Transformer.new }
+
+  it "returns a result" do
+    expect(subject.parse(result)).to be_a Diaclone::Result
+  end
 end
