@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class DiacloneTest < ActiveSupport::TestCase
-  test "truth" do
+describe Diaclone do
+  it "is a module" do
     assert_kind_of Module, Diaclone
   end
 end
