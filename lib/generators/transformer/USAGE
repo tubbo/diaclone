@@ -1,0 +1,9 @@
+Description:
+    Generates an EmailParser in app/parsers for a new affiliate.
+
+Example:
+    rails generate parser some_affiliate
+
+    This will create:
+        app/parsers/some_affiliate_parser.rb
+        spec/parsers/some_affilaite_parser.rb

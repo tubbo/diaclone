@@ -1,0 +1,6 @@
+require_relative '../../app/transformers/<%= file_name %>_transformer'
+require 'spec_helper'
+
+describe <%= file_name.camelize %>Transformer do
+  subject { <%= file_name.camelize %>Transformer.new }
+end
