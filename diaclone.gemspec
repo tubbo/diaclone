@@ -7,16 +7,16 @@ require "diaclone/version"
 Gem::Specification.new do |s|
   s.name        = "diaclone"
   s.version     = Diaclone::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Diaclone."
-  s.description = "TODO: Description of Diaclone."
+  s.authors     = ["Tom Scott", "Rob Di Marco", "Chris MacNaughton"]
+  s.email       = ["tom.scott@elocal.com", "rob@elocal.com", "chris@elocal.com"]
+  s.homepage    = "http://elocal.github.io/diaclone"
+  s.summary     = "A micro-parsing library for Rails apps, inspired by Rack."
+  s.description = "A micro-parsing library for Rails apps, inspired by Rack."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.test_files = Dir["spec/**/*"]
 
-  s.add_dependency "rails", "~> 3.2.13"
+  s.add_dependency "rails"
 
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "rspec"
 end
