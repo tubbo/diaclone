@@ -118,17 +118,24 @@ require 'spec_helper'
 require_relative '../../app/transformers/split_transformer'
 
 describe SplitTransformer do
-  let(:result) { Diaclone::Result.new "test\ndata" }
-  let(:transformer) { SplitTransformer.new delimiter: "\n" }
+  subject { SplitTransformer.new delimiter: "\n" }
+  let(:fixture_data) { { body: "test\ndata" } }
+  let(:result) { subject.parse Diaclone::Result.new(fixture_data) }
 
-  subject { SplitTransformer.parse result }
+  it "uses the newline character as a delimiter" do
+    expect(subject.delimiter).to eq("\n")
+  end
+
+  it "loads the correct fixture data" do
+    expect(subject.body).to eq("test\ndata")
+  end
 
   it "splits on newlines" do
-    expect(subject.lines).to_not be_empty
+    expect(result.lines).to_not be_empty
   end
 
   it "finds the correct amount of newlines" do
-    expect(subject.lines.count).to eq(2)
+    expect(result.lines.count).to eq(2)
   end
 end
 ```
