@@ -18,13 +18,11 @@ module Diaclone
   class Result
     attr_accessor :body, :lines, :hash
 
-    def initialize(body, options={})
-      @body, @lines, @hash, @extras = body, [], {}, nil
+    def initialize with_options={}
+      @body, @lines, @hash, @extras = "", [], {}, nil
 
-      unless options.empty?
-        options.each do |property, value|
-          send :"#{property}=", value
-        end
+      with_options.each do |property, value|
+        self.send :"#{property}=", value
       end
     end
 
