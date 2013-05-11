@@ -1,7 +1,7 @@
-require 'test_helper'
+require 'spec_helper'
 
 describe Diaclone do
   it "is a module" do
-    assert_kind_of Module, Diaclone
+    expect(Diaclone).to be_a Module
   end
 end
