@@ -9,10 +9,17 @@ module Diaclone
       @data = and_raw_data
     end
 
-    def result
-      @result ||= Result.new from_data
+    def configured?
+      transformers.any?
     end
 
+    def result
+      transformers.reduce starting_result do |result, transformer|
+        transformer.parse result
+      end
+    end
+
+  private
     def from_data
       case
       when self.data.is_a?(String)
@@ -24,8 +31,8 @@ module Diaclone
       end
     end
 
-    def configured?
-      transformers.any?
+    def starting_result
+      Result.new from_data
     end
   end
 end

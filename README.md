@@ -30,7 +30,7 @@ Bundle, and run this on the command line to set up your configuration:
 $ rails generate diaclone:install
 ```
 
-## Usage
+## What are Transformers?
 
 Generally, transformers are just an object that responds to the method
 `parse(result)`, and returns the same `Diaclone::Result` object that was
@@ -70,29 +70,24 @@ require 'spec_helper'
 require_relative '../../app/transformers/contact_info_split_transformer'
 
 describe ContactInfoSplitTransformer do
-  let(:result) { Diaclone::Result.new "test data" }
-  subject { SplitTransformer.parse result }
+  let(:result) { Diaclone::Result.new(body: "test data") }
+  subject { ContactInfoSplitTransformer.parse result }
   it "parses text" do
   end
 end
 ```
 
-There are a few other generators you can use to alter the way the
-implementation class looks. In this most basic example, we generated a
-class without state that just passes in a result and returns the same
-object, but slightly mutated. You can also generate an object that has
-state, and must be instantiated with some given configuration, if you
-use the following command:
+### Advanced
 
-```bash
-$ rails generate transformer:stateful split
-```
+Typically, you will want to alter some kind of configuration for each
+class in order to reduce some duplication for very similar requirements.
+For example, it may be better to build and test a `SplitTransformer`
+that can be configured to split a given body text on any delimiter,
+rather than a `ContactInfoSplitTransformer`, which very specifically
+matches on a given regex of delimiters that are pre-set into the code.
 
-This generates a class which has state, and must be instantiated. It's
-useful for providing a bit of configuration into your class, so you can
-write more generic and reusable objects.
-
-Here's what a class generated like this *could* look like...
+The transformer we just described above can be modified to support
+splitting a given body text on newlines, or `\n`:
 
 ```ruby
 require 'diaclone'
@@ -111,7 +106,19 @@ class SplitTransformer
 end
 ```
 
-This class can be called in your test like so:
+This class is now stateful, and requires some sort of instantiation for
+use. In your middleware array, call the class like so:
+
+```ruby
+config.parsing.middleware = [
+  SplitTransformer.new(delimiter: "\n")
+]
+```
+
+You can also test the way that this class transforms a `Result` object
+into a workable piece of data. Here is a test that could be written for
+this particular class, based off of code that we actually use at
+**eLocal**:
 
 ```ruby
 require 'spec_helper'
@@ -145,6 +152,61 @@ As you can see, it's very easy to set up test cases and work out
 problems in your parsing logic, even remove whole sections entirely,
 while retaining a level of assurance that your application will continue
 to parse things even in high-performance production scenarios.
+
+## Using Diaclone
+
+Diaclone is a generic parser framework that can realistically be used in
+any Ruby application. Although we provide Rails generators, and have
+intended this for use in a Rails app, Diaclone can be used to parse
+anything, especially large bodies of text that need transformation or
+data cleanup.
+
+### The Middleware object
+
+`Diaclone::Middleware` can be used as a minimal "wrapper" that takes
+a collection of transformers and runs raw data through them as a
+`Diaclone::Result`:
+
+```ruby
+middleware = [
+  SplitTransformer.new(delimiter: "\n")
+]
+raw_data = { body: "test data" }
+result = Diaclone::Middleware.new(middleware, raw_data).result
+```
+
+This minimal wrapper completes the picture and allows you to simply pass
+in data to an array of configured middleware, and it returns a
+`Diaclone::Result` object for you to use.
+
+### Configuration in a Rails app
+
+The generator `diaclone:install` should have created an initializer
+called **config/initializers/diaclone.rb** which describe your
+application's parsing configuration. All configuration for parsing logic
+is held in the `config.parsing` namespace of your Rails application
+config. We have one available that is somewhat "reserved", called
+`config.parsing.middleware`, that is used to hold an
+`ActiveSupport::HashWithIndifferentAccess` filled with keyed arrays of
+all the middleware used for different purposes. You can use the keys of
+the hash to describe the purpose of each middleware stack, like so:
+
+```ruby
+Rails.application.config.parsing.middleware.merge(
+  "affiliate-slug" => [
+    SplitTransformer.new(delimiter: "\n")
+  ]
+)
+```
+
+You can then use this anywhere by just instantiating a Middleware
+object:
+
+```ruby
+middleware = Rails.application.config.parsing.middleware
+data = { body: "test data" }
+result = Diaclone::Middleware.new(middleware, data).result
+```
 
 ## Contributing
 
