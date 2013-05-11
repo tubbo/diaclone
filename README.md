@@ -5,7 +5,7 @@ generate "transformers" and run a set of text through all of them. They
 in turn use very small bits of logic in separate "cell" classes, which
 create objects that do one thing and one thing well. These objects are
 easily testable, and help to refactor long tracts of imperative code,
-which are difficult to debug and test.
+which are notoriously difficult to debug and test.
 
 It is currently in production use by [eLocal](http://elocal.com) for
 the email parser component of our lead marketplace API.
