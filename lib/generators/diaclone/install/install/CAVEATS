@@ -1,0 +1,10 @@
+Thanks for installing Diaclone!
+
+Please read http://github.com/eLocal/diaclone/wiki for more information
+on using Diaclone for all your text transformation needs.
+
+Generate new transformers with:
+
+  $ rails generate transformer split_text
+
+http://github.com/eLocal/diaclone/issues to report bugs.

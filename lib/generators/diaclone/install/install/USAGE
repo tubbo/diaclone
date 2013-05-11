@@ -1,0 +1,8 @@
+Description:
+    Installs application configuration for Diaclone.
+
+Example:
+    rails generate diaclone:install
+
+    This will create:
+        config/initializers/diaclone.rb
