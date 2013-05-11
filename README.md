@@ -10,7 +10,7 @@ which are difficult to debug and test.
 It is currently in production use by [eLocal](http://elocal.com) for
 the email parser component of our lead marketplace API.
 
-## Etymology
+### Etymology
 
 Diaclone is the [original branding](http://en.wikipedia.org/wiki/Diaclone)
 of Hasbro's [Transformers](http://en.wikipedia.org/wiki/Transformers)
