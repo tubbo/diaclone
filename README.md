@@ -123,7 +123,8 @@ describe SplitTransformer do
   let(:result) { subject.parse Diaclone::Result.new(fixture_data) }
 
   it "uses the newline character as a delimiter" do
-    expect(subject.delimiter).to eq("\n")
+    expect(subject.options).to have_key(:delimiter)
+    expect(subject.options[:delimiter]).to eq("\n")
   end
 
   it "loads the correct fixture data" do
