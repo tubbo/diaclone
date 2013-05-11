@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'rspec'
 require 'diaclone'
+require 'pry'
 
 # Configure Rails Environment
 ENV["RAILS_ENV"] = "test"
