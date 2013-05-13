@@ -44,5 +44,11 @@ module Diaclone
       subject.hash.merge! line_2: "value 2"
       subject.to_s.should == "test_attr: test value\nline_2: value 2"
     end
+
+    it "can be instantiated with no options" do
+      null_result = Result.new nil
+
+      null_result.to_s.should == ""
+    end
   end
 end
