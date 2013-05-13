@@ -55,7 +55,9 @@ module Diaclone
 
     # Print the parsed Hash as a String.
     def to_s
-      self.hash.reduce("") { |a,(k,v)| a << "#{k}: #{v}" }
+      self.hash.reduce('') { |document,(attribute,value)|
+        document << "#{attribute}: #{value}\n"
+      }.chomp
     end
 
     # Print the raw body as a String.

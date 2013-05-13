@@ -9,6 +9,7 @@ module Diaclone
         hash: { test_attr: "test value" }
       }
     end
+
     subject { Result.new fixture }
 
     it "starts with an untouched body" do
@@ -16,7 +17,6 @@ module Diaclone
     end
 
     it "optionally preloads other attributes" do
-
       subject.body.should == "Body."
       subject.lines.first.should == "test"
       subject.hash.keys.first.should == :test_attr
@@ -38,6 +38,11 @@ module Diaclone
 
     it "always keeps the body in a reader called `raw`" do
       subject.raw.should == subject.body
+    end
+
+    it "separates each key/value pair by newline when called as string" do
+      subject.hash.merge! line_2: "value 2"
+      subject.to_s.should == "test_attr: test value\nline_2: value 2"
     end
   end
 end
