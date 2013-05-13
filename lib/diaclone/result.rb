@@ -18,8 +18,9 @@ module Diaclone
   class Result
     attr_accessor :body, :lines, :hash
 
-    def initialize with_options={}
-      @options, @body, @lines, @hash, @extras = with_options, "", [], {}, nil
+    def initialize with_options
+      @body, @lines, @hash, @extras = "", [], {}, nil
+      @options = with_options
 
       options.each do |property, value|
         self.send :"#{property}=", value
@@ -27,7 +28,7 @@ module Diaclone
     end
 
     def options
-      @options || {}
+      @options || []
     end
 
     # Make an exact duplicate of this Result, allowing experimentation
